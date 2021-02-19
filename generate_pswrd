@@ -1,0 +1,25 @@
+import random
+letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
+
+nr_letters= int(input("How many letters would you like in your password?\n")) 
+nr_symbols = int(input(f"How many symbols would you like?\n"))
+nr_numbers = int(input(f"How many numbers would you like?\n"))
+
+# get N random elements from specified array
+passw_letters = random.sample(letters, nr_letters)
+passw_numbers = random.sample(numbers, nr_numbers)
+passw_symbols = random.sample(symbols, nr_symbols)
+
+# merge arrays into one array
+password_symbols = passw_letters + passw_numbers + passw_symbols
+
+# shuffle symbols in the array
+random.shuffle(password_symbols)
+
+password = ''
+for el in password_symbols:
+  password += el
+
+print(f"your password is: {password}")
