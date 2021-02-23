@@ -115,7 +115,7 @@ while flag:
   if (lives_remaining == 0):
     flag = False
     print('===== sorry, you lose =====\n\n')
-    print(f' ===== hidden word was {random_word} ===== ')
+    print(f' ===== hidden word was >>>> {random_word.upper()} <<<< ===== ')
 
   if ('*' not in hidden_word):
     flag = False
