@@ -1,0 +1,127 @@
+import urllib.request, json 
+import random
+
+
+hangman_lives = ['''
+  +---+
+  |   |
+  O   |
+ /|\  |
+ / \  |
+      |
+=========
+''', '''
+  +---+
+  |   |
+  O   |
+ /|\  |
+ /    |
+      |
+=========
+''', '''
+  +---+
+  |   |
+  O   |
+ /|\  |
+      |
+      |
+=========
+''', '''
+  +---+
+  |   |
+  O   |
+ /|   |
+      |
+      |
+=========''', '''
+  +---+
+  |   |
+  O   |
+  |   |
+      |
+      |
+=========
+''', '''
+  +---+
+  |   |
+  O   |
+      |
+      |
+      |
+=========
+''', '''
+  +---+
+  |   |
+      |
+      |
+      |
+      |
+=========
+''']
+
+# get list of words (it's in JSON format)
+# convert it into object
+with urllib.request.urlopen("https://www.randomlists.com/data/words.json") as url:
+  data_obj = json.loads(url.read().decode())
+  # data_obj - is an object, containing one array (list of words): {'data': ['word 1', 'word 2'...]}
+  # get array, which is within 'data' object
+word_list = data_obj['data']
+# get random word
+random_word = random.choice(word_list)
+# print(random_word)
+
+wrongly_guessed_letters = []
+
+
+hidden_word = []
+
+for letter in random_word:
+  hidden_word.append('*')
+
+ # join elements from the list, making it a string (now they will look like * * * * * instead of ['*', '*', '*', '*', '*']
+print(f'\nhidden word: {" ".join(hidden_word)}\n\n') 
+
+hidden_word_length = len(hidden_word)
+
+lives_remaining = 6
+
+flag = True
+
+while flag:
+  user_guess = input('please make a guess, type a letter: ').lower()
+  
+  for letter_index in range(hidden_word_length):
+    letter = random_word[letter_index]  
+    if (letter == user_guess):
+      hidden_word[letter_index] = letter
+
+  print(f'\n- user_guess: {user_guess}\n\n')
+ 
+  print(f'hidden word: {" ".join(hidden_word)}\n\n') 
+
+  if (user_guess not in random_word):        
+    if (user_guess in wrongly_guessed_letters):
+      print(f'You have already entered >> {user_guess} << it\'s not in the word\n\n')
+      # if user inputs the same wrong letter, do not count attemps by compensating lives
+      lives_remaining += 1
+      # add only unique letters to the list
+    if (user_guess not in wrongly_guessed_letters):
+      wrongly_guessed_letters.append(user_guess)
+    lives_remaining -= 1
+    print(f'{hangman_lives[lives_remaining]}')
+    print(f'- there\'s no >> {user_guess} << in the word\n\n- lives remaining: {lives_remaining}\n')
+    print(f'- letters, which are not in the word: {wrongly_guessed_letters}\n\n')
+  
+  if (lives_remaining == 0):
+    flag = False
+    print('===== sorry, you lose =====\n\n')
+    print(f' ===== hidden word was {random_word} ===== ')
+
+  if ('*' not in hidden_word):
+    flag = False
+    print('===== congratulations! you win! =====\n\n')
+
+  
+  
+
+
