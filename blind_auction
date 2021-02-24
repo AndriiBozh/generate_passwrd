@@ -1,0 +1,20 @@
+participant = {}
+
+flag = True
+while flag:  
+  name = input('please type your name: ')
+  bid = int(input('what is your bid?: $'))
+  # participant = {}
+  participant[name] = bid
+  
+  next_bidder = input('Are there any other bidders? yes / no ')
+  if next_bidder == 'no':
+    flag = False
+
+max_bid = 0
+for key in participant:  
+  if participant[key] > max_bid:
+    max_bid = participant[key]  
+    winner_name = key
+
+print(f'{winner_name} made the highest bid: ${max_bid}. Congratulations!')
