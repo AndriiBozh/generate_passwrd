@@ -1,0 +1,42 @@
+def add(n1, n2):
+  return n1 + n2
+
+def substract(n1, n2):
+  return n1 - n2
+
+def multiply(n1, n2):
+  return n1 * n2
+
+def divide(n1, n2):
+  return n1 / n2
+
+math_operations = {
+  "+": add,
+  "-": substract,
+  "*": multiply,
+  "/": divide
+}
+
+def calculator():
+
+  flag = True
+  # we need to put this 'num1 = input' outside the 'while' loop, because in case user decides to continue calculations, num1 will be assigned the value of 'res' (lines 44-45)
+  num1 = float(input('\nPlease enter the first number: '))
+  while flag:
+    
+    operation = input('\nWhich operation you would like to perform:  + - * /  >>> ')
+    num2 = float(input('\nPlease enter the second number: '))
+
+    math_function = math_operations[operation]
+    res = math_function(num1, num2)
+    print(f'\n{num1} {operation} {num2} = {res}')
+    
+    continue_calculations = input(f'\nDo you wish to continue calculations with this number: >>> {res} <<< ? \nType "y" to continue and "n" to start new calculations: ')
+
+    if continue_calculations == 'y':
+      num1 = res
+    if continue_calculations == 'n':
+      flag = False
+      calculator()
+
+calculator()
