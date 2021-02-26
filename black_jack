@@ -1,0 +1,95 @@
+import random
+from replit import clear
+
+cards = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11]
+
+
+def get_cards(deck, num):
+  cards = random.sample(deck, num)
+  return cards
+
+def calc_score(cards):
+  score = sum(cards)
+  return score
+
+def black_jack():
+  play = input('\nDo you wish to play? y / n ')
+  if play == 'y':
+    # clear console
+    clear()
+
+    comp_cards = get_cards(cards, 2)
+    player_cards = get_cards(cards, 2)
+
+    comp_score = calc_score(comp_cards)
+    player_score = calc_score(player_cards)
+
+    # show one card computer has
+    print(f'\nYour opponent has this card: {comp_cards[0]}')
+
+    if comp_score == 21:
+      print(f'\nCards of your opponent: {comp_cards}')
+      print(f'\nYour opponent\'s score: {comp_score}\n\n>>>>>> Black Jack! <<<<<<\n\n>>>>>> Your opponent wins <<<<<<')
+      black_jack()
+    elif player_score == 21:
+      print(f'\nyour score: {player_score}\n\n>>>>>> Black Jack! <<<<<<\n\n>>>>>> You win! <<<<<<' )
+      black_jack()
+    user_takes_card = True
+    if player_score < 21:      
+      while user_takes_card:
+        print(f'\nYour cards: {player_cards}')
+        print(f'\nYour score: {player_score}')
+        one_more_card = input('\nDo you wish to take one more card? y / n ')
+        if one_more_card == 'y':
+          player_cards += get_cards(cards, 1)
+          player_score = calc_score(player_cards)
+
+          if player_score > 21:
+            if 11 in player_cards:
+              player_score -= 10
+              if player_score > 21:
+                print(f'\nYour cards: {player_cards}')
+                print(f'\nYour score: {player_score}\n\n>>>>>> You lose <<<<<<')
+                black_jack()
+            else:
+              print(f'\nYour cards: {player_cards}')
+              print(f'\nYour score: {player_score}\n\n>>>>>> You lose <<<<<<')
+              black_jack()
+          if player_score == 21:
+            print(f'\nyour score: {player_score}\n\n>>>>>> Black Jack! <<<<<<\n\n>>>>>> You win! <<<<<<' )
+            black_jack()
+        else:
+          user_takes_card = False
+      # print(f'\nYour cards: {player_cards}')
+      # print(f'\nYour score: {player_score}')    
+        
+    while comp_score < 17:      
+      comp_cards += get_cards(cards, 1)
+      comp_score = calc_score(comp_cards)
+      if comp_score > 21:
+        print(f'\nCards of your opponent: {comp_cards}')
+        print(f'\nYour opponent\'s score: {comp_score}\n\n>>>>>> You win! <<<<<<')
+        black_jack()
+    
+    if player_score > comp_score:      
+      print(f'\nYour opponent\'s score: {comp_score}')
+      print(f'\nYour score: {player_score}')  
+      if player_score == 21:
+        print('\n>>>>>> Black Jack! <<<<<<')
+      print('\n>>>>>> You win! <<<<<<')
+      black_jack()
+    if player_score < comp_score:
+      print(f'\nYour opponent\'s score: {comp_score}')
+      print(f'\nYour score: {player_score}')  
+      if comp_score == 21:
+        print('\n>>>>>> Black Jack! <<<<<<')
+      print('\n>>>>>> Your opponent wins! <<<<<<')
+      black_jack()
+    if player_score == comp_score:
+      print(f'\nYour opponent\'s score: {comp_score}')
+      print(f'\nYour score: {player_score}') 
+      print('\n>>>>>> It\'s a draw! <<<<<<')
+  else:
+    black_jack()
+
+black_jack()
