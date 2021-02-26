@@ -89,6 +89,7 @@ def black_jack():
       print(f'\nYour opponent\'s score: {comp_score}')
       print(f'\nYour score: {player_score}') 
       print('\n>>>>>> It\'s a draw! <<<<<<')
+      black_jack()
   else:
     black_jack()
 
