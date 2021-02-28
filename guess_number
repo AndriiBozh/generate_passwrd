@@ -5,8 +5,6 @@ from art import *
 tprint('guess')
 tprint('number')
 
-number_to_guess = random.randrange(1, 100)
-
 def play_again():
   play_again = input('\nDo you want to play again? y / n ')
   if play_again == 'y':
@@ -16,7 +14,8 @@ def play_again():
     clear()
     guess_number()
 
-def guess_number():
+def guess_number():  
+  number_to_guess = random.randrange(1, 100)
   difficulty = input('\nPlease select the level of difficulty, easy or hard: e / h ')  
   attempts_left = 0
   if difficulty == 'e':
