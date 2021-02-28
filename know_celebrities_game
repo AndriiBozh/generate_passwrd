@@ -343,11 +343,7 @@ def more_less():
   name_2 = second[0]
   followers_2 = second[1]
   
-  # in case the same objects were randomly selected, reselect second object from the list
-  if name_1 == name_2:
-    second = get_second_person(data)
-    name_2 = second[0]
-    followers_2 = second[1]
+  
 
   score = 0  
 
