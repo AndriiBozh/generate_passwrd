@@ -1,0 +1,102 @@
+MENU = {
+    "espresso": {
+        "ingredients": {
+            "water": 50,
+            "coffee": 18,
+        },
+        "cost": 1.5,
+    },
+    "latte": {
+        "ingredients": {
+            "water": 200,
+            "milk": 150,
+            "coffee": 24,
+        },
+        "cost": 2.5,
+    },
+    "cappuccino": {
+        "ingredients": {
+            "water": 250,
+            "milk": 100,
+            "coffee": 24,
+        },
+        "cost": 3.0,
+    }
+}
+
+resources = {
+    "water": 300,
+    "milk": 200,
+    "coffee": 100,
+}
+
+penny = 0.01
+nickel = 0.05
+dime = 0.1
+quarter = 0.25
+
+
+def insert_coins(prev_coins):
+    quarters = int(input('How many quarters? '))
+    dimes = int(input('How many dimes? '))
+    nickles = int(input('How many nickels? '))
+    pennies = int(input('How many pennies? '))
+    total_inserted = (quarters * quarter) + (dimes * dime) + (nickles * nickel) + (pennies * penny)
+    return total_inserted + prev_coins
+
+
+def check_resources(ingredients):
+    for el in ingredients:
+        if ingredients[el] > resources[el]:
+            print(f'Sorry, not enough {el}')
+            return False
+    return True
+
+
+def make_coffee():
+    user_order = input('What would you like? (espresso/latte/cappuccino): ')
+
+    if user_order == 'report':
+        for k, v in resources.items():
+            if k == 'coffee':
+                print(f'{k}: {v}g')
+            else:
+                print(f'{k}: {v}ml')
+
+    user_order_ingredients_and_cost = MENU[user_order]
+
+    if user_order in MENU.keys():
+        # if there are enough resources to make the selected drink
+        if check_resources(user_order_ingredients_and_cost['ingredients']):
+            print('Please, insert coins.')
+            previously_inserted_coins = 0
+
+            cost_of_drink = MENU[user_order]['cost']
+            coins_inserted = insert_coins(previously_inserted_coins)
+
+            if cost_of_drink > coins_inserted:
+                remaining_sum_to_pay = cost_of_drink - coins_inserted
+                print(f'There\'s not enough money, please pay ${abs(remaining_sum_to_pay)} more.')
+                confirm_insert_more_coins = input('Would you like to insert more coins? y / n ')
+                if confirm_insert_more_coins == 'n':
+                    print(f'{round(coins_inserted, 2)} refunded')
+                    make_coffee()
+                while cost_of_drink > coins_inserted:
+                    coins_inserted = insert_coins(coins_inserted)
+                    remaining_sum_to_pay = cost_of_drink - coins_inserted
+                    print(f'There\'s not enough money, please pay ${abs(remaining_sum_to_pay)} more.')
+                    confirm_insert_more_coins = input('Would you like to insert more coins? y / n ')
+                    if confirm_insert_more_coins == 'n':
+                        print(f'{round(coins_inserted, 2)} refunded')
+                        make_coffee()
+            if coins_inserted == cost_of_drink:
+                print(f'Here is your {user_order}. Enjoy!')
+                make_coffee()
+            if coins_inserted > cost_of_drink:
+                change = coins_inserted - cost_of_drink
+                print(f'Here is your {user_order}. Enjoy!')
+                print(f'Your change is ${round(change, 2)}')
+                make_coffee()
+
+
+make_coffee()
