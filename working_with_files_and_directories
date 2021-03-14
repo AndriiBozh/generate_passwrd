@@ -1,0 +1,31 @@
+# we have a template invitation letter (text file)
+# we a list of names (text file)
+# we need to create an invitation letter for each person (each name in the list of names file), using the template invitation letter (changing only name)
+# and to save the newly created letters in a separate text file
+
+
+======================================================================================
+
+
+with open('./Input/Names/invited_names.txt') as names_file:
+    # make a list
+    list_of_names = names_file.readlines()
+
+with open('./Input/Letters/starting_letter.txt') as letter_file:
+    letter = letter_file.read()
+
+for name in list_of_names:
+    # remove \n after name
+    name_to_insert = name.strip()
+
+    # inside the 'letter' template, replace
+    new_letter = letter.replace('[name]', f'{name_to_insert}')
+    # in order our file names do not contain whitespaces
+    if " " in name_to_insert:
+        name_to_insert = name_to_insert.replace(" ", "_")
+    # # create new letter (text file) for each name
+    with open(f'./Output/ReadyToSend/{name_to_insert}.txt', mode='w') as completed_letter:
+    # insert the newly created letter into a newly created file
+        completed_letter.write(new_letter)
+
+
