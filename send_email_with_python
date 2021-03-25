@@ -1,0 +1,31 @@
+import smtplib
+import csv
+# import datetime as dt
+import random
+
+# now = dt.datetime.now()
+# weekday = now.weekday()
+# if weekday is monday
+# if weekday == 0:
+    # send email
+
+with open('quotes.txt', 'r') as csv_file:
+    reader = csv.reader(csv_file)
+    quotes_list = list(reader)
+
+
+random_quote = random.choice(quotes_list)
+message_to_sent = random_quote[0]
+
+
+my_mail = 'here is my mail'
+password ='here is my passw'
+
+with smtplib.SMTP('smtp.gmail.com', port=587) as connection:
+    connection.starttls()
+    connection.login(user=my_mail, password=password)
+    connection.sendmail(from_addr=my_mail, to_addrs='mail of recepient', msg=f'Subject: here is a subject\n\n{message_to_sent}')
+
+
+
+
